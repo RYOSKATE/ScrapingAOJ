@@ -1,0 +1,9 @@
+{
+  "name": "scraping-aoj",
+  "version": "0.0.0",
+  "description": "ScrapingAOJ",
+  "main": "app.js",
+  "author": {
+    "name": "RYOSUKE"
+  }
+}
