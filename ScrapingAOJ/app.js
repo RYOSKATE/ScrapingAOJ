@@ -54,7 +54,7 @@ fs.readFile(inputFilename, (err, data) => {
                     getAOJ();
                 })
                 .catch(function (error) {
-                    const text = number + ',' + syussekibo + ',' + URL;
+                    const text = number + ',' + syussekibo + ',' + value.account;
                     fs.appendFile(outputFilename, text + '\n');
                     console.error(count + ":" + number + ',' + URL + ',' + 'Search failed:', error);
                     getAOJ();
