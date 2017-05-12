@@ -42,7 +42,7 @@ fs.readFile(inputFilename, (err, data) => {
 
                     var nightmare = Nightmare(
                         {
-                            show: true,
+                            show: false,
                             //waitTimeout: 30000,
                             //gotoTimeout: 30000,
                             //loadTimeout: 30000,
@@ -66,22 +66,26 @@ fs.readFile(inputFilename, (err, data) => {
                                 4: 0
                             };
                             function get_obj_by_key_value(dataAry, key, value) {
-                                var result = $.grep(dataAry, function (e) {
-                                    return e[key] == value;
-                                });
-                                return result;
+                                var ret = null;
+                                for (var i = 0; i < dataAry.length; ++i) {
+                                    if (dataAry[i][key] == value) {
+                                        ret = dataAry[i];
+                                        break;
+                                    }
+                                }
+                                return ret;
                             }
-                            //for (var i = 0; i < numOfSolved; ++i) {
-                            //    const ID = result[i].problemID;
-                            //    const obj = get_obj_by_key_value(arrayRank, 'id', ID);
-                            //    if (obj) {
-                            //        const rank = obj.rank;
-                            //        ++numOfSolvedByRank[rank];
-                            //    }
-                            //    else {
-                            //        ++numOfSolvedByRank[0];
-                            //    }
-                            //}
+                            for (var i = 0; i < numOfSolved; ++i) {
+                                const ID = result[i].problemID;
+                                const obj = get_obj_by_key_value(arrayRank, 'id', ID);
+                                if (obj) {
+                                    const rank = obj.rank;
+                                    ++numOfSolvedByRank[rank];
+                                }
+                                else {
+                                    ++numOfSolvedByRank[0];
+                                }
+                            }
                             var text = number + ',' + syussekibo + ',' + numOfSolved;
                             for (var i = 0; i <= 4; ++i) {
                                 text += ',' + numOfSolvedByRank[i];
