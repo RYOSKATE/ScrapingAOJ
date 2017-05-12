@@ -56,7 +56,8 @@ fs.readFile(inputFilename, (err, data) => {
                         })
                         .end()
                         .then(function (result) {
-                            const text = number + ',' + syussekibo + ',' + result;
+                            const numOfSolved = result.length;
+                            const text = number + ',' + syussekibo + ',' + numOfSolved;
                             fs.appendFile(outputFilename, text + '\n');
                             console.log(count + ":" + text);
                             getAOJ();
