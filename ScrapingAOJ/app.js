@@ -1,4 +1,5 @@
-﻿const fs = require('fs');
+﻿const $ = require('jquery');
+const fs = require('fs');
 const csv = require('csv');
 const iconv = require('iconv-lite');
 const Nightmare = require('nightmare');
@@ -28,7 +29,7 @@ fs.readFile(inputFilename, (err, data) => {
                     arrayRank.push(value);
                 });
                 var count = 0;
-                fs.writeFile(outputFilename, '学籍番号,出席簿番号,AOJ\n');
+                fs.writeFile(outputFilename, '学籍番号,出席簿番号,AOJ,その他,初心者,中級者,上級者,超上級者\n');
                 var getAOJ = function () {
                     if (arrayCSV.length <= count) {
                         return 0;
@@ -57,7 +58,34 @@ fs.readFile(inputFilename, (err, data) => {
                         .end()
                         .then(function (result) {
                             const numOfSolved = result.length;
-                            const text = number + ',' + syussekibo + ',' + numOfSolved;
+                            var numOfSolvedByRank = {
+                                0: 0,//その他
+                                1: 0,
+                                2: 0,
+                                3: 0,
+                                4: 0
+                            };
+                            function get_obj_by_key_value(dataAry, key, value) {
+                                var result = $.grep(dataAry, function (e) {
+                                    return e[key] == value;
+                                });
+                                return result;
+                            }
+                            //for (var i = 0; i < numOfSolved; ++i) {
+                            //    const ID = result[i].problemID;
+                            //    const obj = get_obj_by_key_value(arrayRank, 'id', ID);
+                            //    if (obj) {
+                            //        const rank = obj.rank;
+                            //        ++numOfSolvedByRank[rank];
+                            //    }
+                            //    else {
+                            //        ++numOfSolvedByRank[0];
+                            //    }
+                            //}
+                            var text = number + ',' + syussekibo + ',' + numOfSolved;
+                            for (var i = 0; i <= 4; ++i) {
+                                text += ',' + numOfSolvedByRank[i];
+                            }
                             fs.appendFile(outputFilename, text + '\n');
                             console.log(count + ":" + text);
                             getAOJ();
