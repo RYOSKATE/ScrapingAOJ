@@ -52,10 +52,7 @@ fs.readFile(inputFilename, (err, data) => {
                         .goto(URL)
                         .wait('#pager_right')
                         .evaluate(function () {
-                            const element = document.querySelector('#pager_right div');
-                            const innerHTML = element.innerHTML;
-                            const numOfSolved = innerHTML.substr(innerHTML.lastIndexOf(' ')).trim();
-                            return numOfSolved;
+                            return solveddata;//これまでに解いた問題数
                         })
                         .end()
                         .then(function (result) {
