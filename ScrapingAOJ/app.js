@@ -64,7 +64,7 @@ async.waterfall([
                     return solveddata;//これまでに解いた問題数
                 })
                 .end()
-                .then(function (result) {
+                .then(function (solveddata) {
                     var numOfSolvedByRank = {
                         0: 0,//その他
                         1: 0,
@@ -85,7 +85,8 @@ async.waterfall([
 
                     let numOfSolved = 0;
                     let langArray = new Array();
-                    for (const ret of result) {
+                    let targetCodeIDs = new Array();
+                    for (const ret of solveddata) {
                         const lang = ret.language;
                         langArray.push(lang);
                         //if (lang == 'JAVA') {
@@ -94,6 +95,7 @@ async.waterfall([
                         if (obj) {
                             const rank = obj.rank;
                             ++numOfSolvedByRank[rank];
+                            targetCodeIDs.push(ret.jid);
                         }
                         else {
                             ++numOfSolvedByRank[0];
@@ -104,6 +106,28 @@ async.waterfall([
                     const numOfLang = langArray.filter(function (x, i, self) {
                         return self.indexOf(x) === i;
                     }).length;
+
+                    //async.timesSeries(targetCodeIDs.length, function (k, callback) {
+                    //    const codeURL = `http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=` + targetCodeIDs[k];
+                    //    new Nightmare(
+                    //        {
+                    //            show: false
+                    //        })
+                    //        .goto(codeURL)
+                    //        .wait('tbody tr td.code')
+                    //        .evaluate(function () {
+                    //            const code = document.querySelector('tbody tr td.code').innerText;
+                    //            return code;//これまでに解いた問題数
+                    //        })
+                    //        .end()
+                    //        .then(function (code) {
+                    //            callback(null);
+                    //        })
+                    //        .catch(function (error) {
+                    //            console.error('Code Search failed:', error);
+                    //            callback(null);
+                    //        });
+                    //});
 
                     var text = number + ',' + syussekibo + ',' + numOfSolved;
                     for (var i = 0; i <= 4; ++i) {
